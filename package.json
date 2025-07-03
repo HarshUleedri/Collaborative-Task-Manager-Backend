@@ -1,4 +1,10 @@
 {
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "postinstall": "npm run build"
+  },
   "dependencies": {
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
