@@ -32,6 +32,8 @@ app.use(
 
 //api routes imports
 import authRoutes from "./routers/authRoutes/authRoutes";
+import taskRoutes from "./routers/TaskRoutes/taskRoutes";
+import imageUpload from "./routers/imageUploadRoutes/imageUploadRoutes";
 import { IUser } from "./model/UserSchema";
 
 //api routes
@@ -39,6 +41,8 @@ app.get("/api/v1/testing", (req: Request, res: Response) => {
   res.send("working");
 });
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/task", taskRoutes);
+app.use("/api/v1/upload", imageUpload);
 
 connectDB();
 
