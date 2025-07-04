@@ -6,11 +6,6 @@ import { imageUploadController } from "../../controllers/imageUploadController/i
 
 const router = express.Router();
 
-router.post(
-  "/image",
-  ProtectedMiddleware,
-  upload.single("image"),
-  imageUploadController
-);
+router.post("/image", upload.single("image"), imageUploadController);
 
 export default router;
