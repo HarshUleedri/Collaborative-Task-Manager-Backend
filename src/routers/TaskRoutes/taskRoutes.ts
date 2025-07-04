@@ -3,16 +3,25 @@ import {
   createTask,
   deleteTask,
   getAllTask,
+  getSingleTask,
   getUserRelatedTask,
   updateStatus,
 } from "../../controllers/taskControllers/taskControllers";
+import { ProtectedMiddleware } from "../../middleware/ProtectedMiddleware";
+import { authorizedRole } from "../../middleware/AuthorizedRoles";
 
 const router = express.Router();
 
-router.post("/create", createTask);
-router.put("/:id", updateStatus);
-router.delete("/:id", deleteTask);
-router.get("/all", getAllTask);
-router.get("/", getUserRelatedTask);
+router.post("/create", ProtectedMiddleware, createTask);
+router.put(
+  "/:id",
+  ProtectedMiddleware,
+  authorizedRole("Admin", "Manager"),
+  updateStatus
+);
+router.get("/single/:id", ProtectedMiddleware, getSingleTask);
+router.delete("/:id", ProtectedMiddleware, deleteTask);
+router.get("/all", ProtectedMiddleware, getAllTask);
+router.get("/", ProtectedMiddleware, getUserRelatedTask);
 
 export default router;

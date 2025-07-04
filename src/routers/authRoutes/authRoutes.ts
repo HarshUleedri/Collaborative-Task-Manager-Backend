@@ -11,7 +11,7 @@ const router = express.Router();
 router.post("/signup", SignUp);
 router.post("/login", Login);
 router.post("/logout", Logout);
-router.post("/me", ProtectedMiddleware, (req: Request, res: Response) => {
+router.get("/me", ProtectedMiddleware, (req: Request, res: Response) => {
   res.status(200).json({ user: req.user });
 });
 

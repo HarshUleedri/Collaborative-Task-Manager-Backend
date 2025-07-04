@@ -18,7 +18,7 @@ export const imageUploadController = async (req: Request, res: Response) => {
     });
     if (!profileImage) {
       res.status(500).json({ message: "Url not generated" });
-      return;
+      return;   
     }
     res.status(201).json({ url: profileImage.url });
   } catch (error) {

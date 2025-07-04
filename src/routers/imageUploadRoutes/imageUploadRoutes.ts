@@ -7,7 +7,7 @@ import { imageUploadController } from "../../controllers/imageUploadController/i
 const router = express.Router();
 
 router.post(
-  "/signup",
+  "/image",
   ProtectedMiddleware,
   upload.single("image"),
   imageUploadController

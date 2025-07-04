@@ -9,22 +9,25 @@ export const getAllTask = async (req: Request, res: Response) => {
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
-    const tasks = await Task.find();
+    const tasks = await Task.find().populate(
+      "assignedToUserId",
+      "username profilePic"
+    );
 
     res.status(200).json({ success: true, tasks });
   } catch (error) {
-    console.log("Error at delete task", error);
+    console.log("Error at get all task", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-export const getUserRelatedTask = (req: Request, res: Response) => {
+export const getUserRelatedTask = async (req: Request, res: Response) => {
   try {
     const user = req.user;
     if (!user) {
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
-    const tasks = Task.find({ assignedToUserId: user._id });
+    const tasks = await Task.find({ assignedToUserId: user._id });
     res.status(200).json({ success: true, tasks });
   } catch (error) {
     console.log("Error at get user Related Task", error);
@@ -51,7 +54,7 @@ export const createTask = async (req: Request, res: Response) => {
       return;
     }
 
-    const Assignee = await User.findOne({ assignedTo });
+    const Assignee = await User.findOne({ username: assignedTo });
 
     if (!Assignee) {
       res.status(404).json({ message: " Assignee in Not Found" });
@@ -128,6 +131,29 @@ export const deleteTask = async (req: Request, res: Response) => {
     res.status(200).json({ success: true, deletedTask });
   } catch (error) {
     console.log("Error at delete task", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+export const getSingleTask = async (req: Request, res: Response) => {
+  try {
+    const user = req.user;
+    const { id } = req.params;
+    if (!user) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+    if (!id) {
+      res.status(400).json({ message: "Bad Request Id is Required" });
+      return;
+    }
+    const task = await Task.findOne({ _id: id }).populate(
+      "assignedToUserId",
+      "username profilePic"
+    );
+
+    res.status(200).json({ success: true, task });
+  } catch (error) {
+    console.log("Error at get single task", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
