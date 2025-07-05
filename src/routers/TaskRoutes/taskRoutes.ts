@@ -12,16 +12,31 @@ import { authorizedRole } from "../../middleware/AuthorizedRoles";
 
 const router = express.Router();
 
-router.post("/create", ProtectedMiddleware, createTask);
+router.post(
+  "/create",
+  ProtectedMiddleware,
+  authorizedRole("Admin", "Manager"),
+  createTask
+);
 router.put(
   "/:id",
   ProtectedMiddleware,
   authorizedRole("Admin", "Manager"),
   updateStatus
 );
-router.get("/single/:id", ProtectedMiddleware, getSingleTask);
-router.delete("/:id", ProtectedMiddleware, deleteTask);
-router.get("/all", ProtectedMiddleware, getAllTask);
+router.get(
+  "/single/:id",
+  ProtectedMiddleware,
+  authorizedRole("Admin", "Manager"),
+  getSingleTask
+);
+router.delete("/:id", ProtectedMiddleware, authorizedRole("Admin"), deleteTask);
+router.get(
+  "/all",
+  ProtectedMiddleware,
+  authorizedRole("Admin", "Manager"),
+  getAllTask
+);
 router.get("/", ProtectedMiddleware, getUserRelatedTask);
 
 export default router;
